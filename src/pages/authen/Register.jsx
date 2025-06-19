@@ -1,18 +1,25 @@
 import FormInput from "../../components/form/FormInput";
 import { createAlert } from "../../utils/createAlert";
 import { useForm } from "react-hook-form";
-import axios from 'axios';
+import axios, { Axios } from 'axios';
+import Buttons from "../../components/form/Buttons";
 
 // rfce
 function Register() {
   // JS
   const {
     register,
-    handleSubmit
+    handleSubmit,
+    formState
   } = useForm();
 
+  const {
+    isSubmitting
+  } = formState;
+
   const hdlSubmit = async (value) => {
-    console.log(value);
+    await new Promise((resolve)=>setTimeout(resolve, 3000));
+    // console.log(value);
     // createAlert("success", "Registerd Success", 2000);
     try {
       const res= await axios.post('http://localhost:8000/auth/register',value);
@@ -36,17 +43,13 @@ function Register() {
         {/* Form */}
         <form onSubmit={handleSubmit(hdlSubmit)} >
           <div className="flex flex-col gap-4 m-5">
-            <FormInput register={register} name="email" />
+            <FormInput register={register} name="email" type="email" />
             <FormInput register={register} name="name" />
-            <FormInput register={register} name="password" />
-            <FormInput register={register} name="confirmPassword" />
+            <FormInput register={register} name="password" type="password" />
+            <FormInput register={register} name="confirmPassword" type="password" />
           </div>
           <div className="m-5">
-            <button
-              className="w-full border bg-[#385c89] border-[#385c89] rounded-md p-2 text-white"
-            >
-              Register
-            </button>
+            <Buttons isSubmitting={isSubmitting} label={"Register"} />
           </div>
         </form>
 
