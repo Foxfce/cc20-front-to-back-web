@@ -5,14 +5,23 @@ import Buttons from "../../components/form/Buttons";
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { loginSchema } from "../../utils/validator";
-import { actionLogin} from "../../api/auth";
+import { actionLogin } from "../../api/auth";
+
+import useAuthStore from "../../stores/authStore";
+import { useNavigate } from "react-router";
 
 // rfce
 function Login() {
   // JS
+  const navigate = useNavigate();
+  // Zustand
+  const actionLoginWithZustand = useAuthStore(state => state.actionLoginWithZustand);
+
+
   const {
     register,
     handleSubmit,
+    reset,
     formState
   } = useForm({
     resolver: yupResolver(loginSchema),
@@ -25,17 +34,38 @@ function Login() {
   // console.log(errors);
 
   const hdlSubmit = async (value) => {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    // console.log(value);
-    // createAlert("success", "Registerd Success", 2000);
-    try {
-      const res = await actionLogin(value);
-      console.log(res);
-      createAlert("success", "Login Success", 2000);
+    const res = await actionLoginWithZustand(value);
+    console.log(res);
+    
+    if (res.success) {
+      console.log(res.role);
+      createAlert("success", "Welcome back", 2000);
+      roleRedirect(res.role);
+    } else {
+      createAlert("info", res.message);
+    }
 
-    } catch (error) {
-      console.log('error : ', error)
-      createAlert("info", error.response?.data?.message);
+  //   await new  Promise((resolve) => setTimeout(resolve, 2000));
+  //   // console.log(value);
+  //   // createAlert("success", "Registerd Success", 2000);
+  //   try {
+  //     const res = await actionLoginWithZustand(value)
+  //     // const res = await actionLogin(value);
+  //     console.log(res);
+  //     createAlert("success", "Login Success", 2000);
+  //     // reset();
+
+  //   } catch (error) {
+  //     console.log('error : ', error)
+  //     createAlert("info", error.response?.data?.message);
+  //   }
+  }
+
+  const roleRedirect = (role) => {
+    if(role === "ADMIN"){
+      navigate('/admin');
+    }else{
+      navigate('/user');
     }
   }
 
