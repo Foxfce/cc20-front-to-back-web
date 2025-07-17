@@ -8,7 +8,7 @@ function Sidebar() {
   const firstName = user.name.split(' ')[0]
   
   return (
-    <div className="w-48 bg-black text-white">
+    <div className="w-48 bg-[#385c89] text-white">
       {/* Profile */}
       <div className='flex flex-col justify-center items-center pt-6'>
         <UsersRound size={48} />

@@ -1,6 +1,6 @@
 function Header() {
   return (
-    <div className="bg-black text-white">Header</div>
+    <div className="bg-[#16365e] text-white">Header</div>
   )
 }
 export default Header

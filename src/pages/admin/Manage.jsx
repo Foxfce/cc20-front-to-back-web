@@ -93,9 +93,8 @@ function Manage() {
                   </select>
                 </td>
 
-                <td className="items-center justify-center">
+                <td className="flex items-center justify-center hover:cursor-pointer">
                   <Trash2 onClick={() => hdlDeleteUser(token, item.id)} color="red" />
-
                 </td>
               </tr>
             )
